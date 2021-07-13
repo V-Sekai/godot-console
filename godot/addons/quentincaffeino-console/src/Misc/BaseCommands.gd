@@ -1,5 +1,5 @@
 
-extends Reference
+extends RefCounted
 
 
 # @var  Console
@@ -49,14 +49,14 @@ func _init(console):
 # Display help message or display description for the command.
 # @param    String|null  command_name
 # @returns  void
-func _help(command_name = null):
+func _help(command_name: Variant = null):
 	if command_name:
 		var command = self._console.get_command(command_name)
 
 		if command:
 			command.describe()
 		else:
-			self._console.Log.warn('No help for `' + command_name + '` command were found.')
+			self._console.Log.warn('No help for `' + str(command_name) + '` command were found.')
 
 	else:
 		self._console.write_line(\

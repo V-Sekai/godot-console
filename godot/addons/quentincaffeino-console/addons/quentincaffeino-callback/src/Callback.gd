@@ -1,5 +1,5 @@
 
-extends './AbstractCallback.gd'
+extends 'res://addons/quentincaffeino-console/addons/quentincaffeino-callback/src/./AbstractCallback.gd' #super./AbstractCallback.gd
 
 
 # @var  string
@@ -9,7 +9,7 @@ var _name
 # @param  Reference   target
 # @param  string      name
 # @param  Utils.Type  type
-func _init(target, name, type = Utils.Type.UNKNOWN).(target, type if type != Utils.Type.UNKNOWN else Utils.getType(target, name)):
+func _init(target, name, type = Utils.Type.UNKNOWN):
 	self._name = name
 
 

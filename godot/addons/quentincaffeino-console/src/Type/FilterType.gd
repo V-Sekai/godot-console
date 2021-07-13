@@ -2,11 +2,10 @@
 extends 'res://addons/quentincaffeino-console/src/Type/BaseType.gd'
 
 
-enum MODE \
-{
-	ALLOW,
-	DENY
-}
+class  MODE :
+	const ALLOW=0
+	const DENY=1
+
 
 
 # @var  Array
@@ -18,7 +17,7 @@ var _mode
 
 # @param  Array  filterList
 # @param  int    mode
-func _init(filterList, mode = MODE.ALLOW).('Filter'):
+func _init(filterList, mode = MODE.ALLOW):
 	self._filterList = filterList
 	self._mode = mode
 

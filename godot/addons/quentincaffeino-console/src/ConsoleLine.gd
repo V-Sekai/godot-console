@@ -5,7 +5,9 @@ const DefaultActions = preload('./Action/DefaultActions.gd')
 
 
 # @var  RegExLib
-var RegExLib = preload('../addons/quentincaffeino-regexlib/src/RegExLib.gd').new() setget _set_protected
+var RegExLib = preload('../addons/quentincaffeino-regexlib/src/RegExLib.gd').new() :
+	set = _set_protected
+
 
 
 const COMMANDS_SEPARATOR = ';'
@@ -29,7 +31,7 @@ func _ready():
 	# Console keyboard control
 	self.set_process_input(true)
 
-	self.connect('text_entered', self, 'execute')
+	self.connect('text_entered', Callable(self, 'execute'))
 
 
 # @param  InputEvent
@@ -68,7 +70,7 @@ func _input(e):
 		if self._autocomplete_triggered_timer and self._autocomplete_triggered_timer.get_time_left() > 0:
 			self._autocomplete_triggered_timer = null
 			var commands = Console.get_command_service().find(self.text)
-			if commands.length == 1:
+			if commands.length() == 1:
 				self.set_text(commands.getByIndex(0).getName())
 			else:
 				for command in commands.getValueIterator():
@@ -147,7 +149,7 @@ func _parse_commands(rawCommands):
 # @returns  Dictionary
 func _parse_command(rawCommand):
 	var name = null
-	var arguments = PoolStringArray([])
+	var arguments = PackedStringArray([])
 
 	var beginning = 0  # int
 	var openQuote  # String|null
@@ -175,7 +177,7 @@ func _parse_command(rawCommand):
 			beginning = i + 1
 
 		# Save separated argument
-		if subString != null and typeof(subString) == TYPE_STRING and !subString.empty():
+		if subString != null and typeof(subString) == TYPE_STRING and !subString.is_empty():
 			if !name:
 				name = subString
 			else:

@@ -1,9 +1,9 @@
 
-extends './AbstractCallback.gd'
+extends 'res://addons/quentincaffeino-console/addons/quentincaffeino-callback/src/./AbstractCallback.gd' #super./AbstractCallback.gd
 
 
 # @param  FuncRef  target
-func _init(target).(target, Utils.Type.METHOD):
+func _init(target):
 	pass
 
 

@@ -1,13 +1,12 @@
 
-extends Reference
+extends RefCounted
 
 
-enum Type \
-{
-	UNKNOWN,
-	VARIABLE,
-	METHOD
-}
+class  Type :
+	const UNKNOWN=0
+	const VARIABLE=1
+	const METHOD=2
+
 
 
 # @param  Reference  target

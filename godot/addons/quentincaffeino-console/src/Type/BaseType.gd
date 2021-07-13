@@ -1,10 +1,9 @@
 
-enum CHECK \
-{
-	OK,
-	FAILED,
-	CANCELED
-}
+class  CHECK :
+	const OK=0
+	const FAILED=1
+	const CANCELED=2
+
 
 
 # @var  String
@@ -35,7 +34,7 @@ func normalize(value):
 # @deprecated
 # @returns  String
 func toString():
-	Console.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `to_string`. Please refer to documentation for more info.")
+	push_error("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `to_string`. Please refer to documentation for more info.")
 	return self.to_string()
 
 # @returns  String

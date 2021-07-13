@@ -27,10 +27,14 @@ signal command_executed(command)
 signal command_not_found(name)
 
 # @var  History
-var History = preload('Misc/History.gd').new(100) setget _set_protected
+var History = preload('Misc/History.gd').new(self, 100) :
+	set = _set_protected
+
 
 # @var  Logger
-var Log = preload('Misc/Logger.gd').new() setget _set_protected
+var Log = preload('Misc/Logger.gd').new(self) :
+	set = _set_protected
+
 
 # @var  Command/CommandService
 var _command_service
@@ -43,7 +47,9 @@ var _action_service
 var _erase_bb_tags_regex
 
 # @var  bool
-var is_console_shown = true setget _set_protected
+var is_console_shown = true :
+	set = _set_protected
+
 
 # @var  bool
 var consume_input = true
@@ -53,10 +59,12 @@ var previous_focus_owner = null
 
 
 ### Console nodes
-onready var _consoleBox = $ConsoleBox
-onready var Text = $ConsoleBox/Container/ConsoleText setget _set_protected
-onready var Line = $ConsoleBox/Container/ConsoleLine setget _set_protected
-onready var _animationPlayer = $ConsoleBox/AnimationPlayer
+@onready var _consoleBox = $ConsoleBox
+@onready var Text = $ConsoleBox/Container/ConsoleText:
+	set = _set_protected
+@onready var Line = $ConsoleBox/Container/ConsoleLine:
+	set = _set_protected
+@onready var _animationPlayer = $ConsoleBox/AnimationPlayer
 
 
 func _init():
@@ -73,11 +81,11 @@ func _ready():
 	# Follow console output (for scrolling)
 	self.Text.set_scroll_follow(true)
 	# React to clicks on console urls
-	self.Text.connect('meta_clicked', self.Line, 'set_text')
+	self.Text.connect('meta_clicked', Callable(self.Line, 'set_text'))
 
 	# Hide console by default
 	self._consoleBox.hide()
-	self._animationPlayer.connect("animation_finished", self, "_toggle_animation_finished")
+	self._animationPlayer.connect("animation_finished", Callable(self, "_toggle_animation_finished"))
 	self.toggle_console()
 
 	# Console keyboard control
@@ -114,7 +122,7 @@ func get_action_service():
 # @param    String  name
 # @returns  Command/Command|null
 func getCommand(name):
-	Console.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `get_command`. Please refer to documentation for more info.")
+	self.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `get_command`. Please refer to documentation for more info.")
 	return self.get_command(name)
 
 # @param    String  name
@@ -126,7 +134,7 @@ func get_command(name):
 # @param    String  name
 # @returns  Command/CommandCollection
 func findCommands(name):
-	Console.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `find_commands`. Please refer to documentation for more info.")
+	self.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `find_commands`. Please refer to documentation for more info.")
 	return self.find_commands(name)
 
 # @param    String  name
@@ -140,7 +148,7 @@ func find_commands(name):
 # @param    String|null  target_name
 # @returns  Command/CommandBuilder
 func addCommand(name, target, target_name = null):
-	Console.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `add_command`. Please refer to documentation for more info.")
+	self.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `add_command`. Please refer to documentation for more info.")
 	return self.add_command(name, target, target_name)
 
 # Example usage:
@@ -162,7 +170,7 @@ func add_command(name, target, target_name = null):
 # @param    String  name
 # @returns  int
 func removeCommand(name):
-	Console.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `remove_command`. Please refer to documentation for more info.")
+	self.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `remove_command`. Please refer to documentation for more info.")
 	return self.remove_command(name)
 
 # @param    String  name
@@ -185,7 +193,7 @@ func write(message):
 # @param    String  message
 # @returns  void
 func writeLine(message = ''):
-	Console.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `write_line`. Please refer to documentation for more info.")
+	self.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `write_line`. Please refer to documentation for more info.")
 	self.write_line(message)
 
 
@@ -206,7 +214,7 @@ func clear():
 
 # @returns  Console
 func toggleConsole():
-	Console.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `toggle_console`. Please refer to documentation for more info.")
+	self.Log.warn("DEPRECATED: We're moving our api from camelCase to snake_case, please update this method to `toggle_console`. Please refer to documentation for more info.")
 	return self.toggle_console()
 
 # @returns  Console

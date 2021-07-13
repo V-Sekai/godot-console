@@ -1,5 +1,5 @@
 
-extends 'Collection.gd'
+extends 'res://addons/quentincaffeino-console/addons/quentincaffeino-array-utils/src/Collection.gd' # Collection.gd
 
 
 # @param  Dictionary

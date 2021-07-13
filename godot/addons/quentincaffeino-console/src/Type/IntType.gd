@@ -2,11 +2,11 @@
 extends 'res://addons/quentincaffeino-console/src/Type/BaseRegexCheckedType.gd'
 
 
-func _init().('Int', '^[+-]?\\d+$'):
+func _init():
 	pass
 
 
 # @param    Variant  value
 # @returns  int
 func normalize(value):
-	return int(self._reextract(value))
+	return (self._reextract(value)).to_int()

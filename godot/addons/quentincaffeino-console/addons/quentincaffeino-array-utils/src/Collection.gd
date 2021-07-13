@@ -1,5 +1,5 @@
 
-extends 'Utils.gd'
+extends 'res://addons/quentincaffeino-console/addons/quentincaffeino-array-utils/src/Utils.gd' # Utils.gd
 
 const Iterator = preload('../../quentincaffeino-iterator/src/Iterator.gd')
 
@@ -11,7 +11,10 @@ var _collection
 var _iterationCurrent = 0
 
 # @var  int
-var length setget _setProtected, length
+var _length :
+	set = _setProtected,
+	get = length
+
 
 
 # @param  Variant  collection
@@ -34,7 +37,7 @@ func set(key, value):  # void
 # Adds an element to the collection.
 # @param  Variant  value
 func add(value):  # void
-	self.set(self.length, value)
+	self.set(self._length, value)
 
 
 # Removes an element with a specific key/index from the collection.
@@ -125,7 +128,7 @@ func getValues():  # Variant[]
 
 # Checks whether the collection is empty.
 func isEmpty():  # bool
-	return self.length == 0
+	return self._length == 0
 
 
 # Clears the collection.
@@ -137,15 +140,15 @@ func clear():  # void
 # position `offset` from the Collection.
 # @param  int       offset
 # @param  int|null  length
-func slice(offset, length = null):  # Collection
+func slice(offset, length: Variant = null):  # Collection
 	var result = get_script().new()
 
-	if offset < self.length:
+	if offset < self._length:
 		if length == null:
-			length = self.length
+			length = self._length
 
 		var i = 0
-		while length and i < self.length:
+		while length and i < self._length:
 			result.set( i, self.getByIndex(offset + i) )
 			length -= 1
 			i += 1
@@ -157,10 +160,10 @@ func slice(offset, length = null):  # Collection
 # @param  Variant   value
 # @param  int       startIndex
 # @param  int|null  length
-func fill(value = 0, startIndex = 0, length = null):  # Collection
-	if startIndex < self.length:
+func fill(value = 0, startIndex = 0, length: Variant = null):  # Collection
+	if startIndex < self._length:
 		if length == null:
-			length = self.length
+			length = self._length
 
 		while length:
 			self._collection[startIndex] = value
@@ -180,14 +183,14 @@ func map(callback):  # Collection
 
 
 # @param  AbstractCallback|null  callback
-func filter(callback = null):  # Collection
+func filter(callback: Object = null):  # Collection
 	var new_collection = self.get_script().new(self.getCollection().duplicate())
 
 	var i = 0
-	if callback:
+	if callback != null:
 		var call
 
-		while i < new_collection.length:
+		while i < new_collection._length:
 			var key = new_collection.getKeys()[i]
 			var value = new_collection.get(key)
 
@@ -198,7 +201,7 @@ func filter(callback = null):  # Collection
 			else:
 				i += 1
 	else:
-		while i < new_collection.length:
+		while i < new_collection._length:
 			var value = new_collection.getByIndex(i)
 			if value == null or typeof(value) == TYPE_NIL or len(value) == 0:
 				new_collection.removeByIndex(i)
@@ -210,7 +213,7 @@ func filter(callback = null):  # Collection
 
 # Sets the internal iterator to the first element in the collection and returns this element.
 func first():  # Variant|null
-	if self.length:
+	if self._length:
 		self._iterationCurrent = 0
 		return self.getByIndex(self._iterationCurrent)
 
@@ -219,8 +222,8 @@ func first():  # Variant|null
 
 # Sets the internal iterator to the last element in the collection and returns this element.
 func last(): # Variant|null
-	if self.length:
-		self._iterationCurrent = self.length - 1
+	if self._length:
+		self._iterationCurrent = self._length - 1
 		return self.getByIndex(self._iterationCurrent)
 
 	return null
@@ -228,7 +231,7 @@ func last(): # Variant|null
 
 # Gets the current key/index at the current internal iterator position.
 func key():  # Variant|null
-	if self.length:
+	if self._length:
 		return self._iter_get()
 
 	return null
@@ -236,7 +239,7 @@ func key():  # Variant|null
 
 # Moves the internal iterator position to the next element and returns this element.
 func next():  # Variant|null
-	if self.length and self._iterationCurrent < self.length - 1:
+	if self._length and self._iterationCurrent < self._length - 1:
 		self._iterationCurrent += 1
 		return self.getByIndex(self._iterationCurrent)
 
@@ -245,7 +248,7 @@ func next():  # Variant|null
 
 # Moves the internal iterator position to the previous element and returns this element.
 func previous():  # Variant|null
-	if self.length and self._iterationCurrent > 0:
+	if self._length and self._iterationCurrent > 0:
 		self._iterationCurrent -= 1
 		return self.getByIndex(self._iterationCurrent)
 
@@ -254,7 +257,7 @@ func previous():  # Variant|null
 
 # Gets the element of the collection at the current internal iterator position.
 func current():  # Variant|null
-	if self.length:
+	if self._length:
 		return self._collection[self._iter_get()]
 
 	return null
@@ -275,13 +278,13 @@ func size():  # int
 # @override  _iter_init(?)
 func _iter_init(arg):  # bool
 	self._iterationCurrent = 0
-	return self._iterationCurrent < self.length
+	return self._iterationCurrent < self._length
 
 
 # @override  _iter_next(?)
 func _iter_next(arg):  # bool
 	self._iterationCurrent += 1
-	return self._iterationCurrent < self.length
+	return self._iterationCurrent < self._length
 
 
 # @override  _iter_get(?)
