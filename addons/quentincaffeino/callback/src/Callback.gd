@@ -1,5 +1,5 @@
 
-extends "./AbstractCallback.gd"
+extends "res://addons/quentincaffeino/callback/src/AbstractCallback.gd" # ./AbstractCallback.gd 
 
 
 # @var  String

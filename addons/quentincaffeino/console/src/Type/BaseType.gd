@@ -1,10 +1,9 @@
 
-enum CHECK \
-{
-	OK,
-	FAILED,
-	CANCELED
-}
+class  CHECK :
+	const OK=0
+	const FAILED=1
+	const CANCELED=2
+
 
 
 # @var  String

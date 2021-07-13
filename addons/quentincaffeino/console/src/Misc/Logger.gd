@@ -1,20 +1,24 @@
 
-extends Reference
+extends RefCounted
 
 
-enum TYPE \
-{
-	DEBUG,
-	INFO,
-	WARNING,
-	ERROR,
-	NONE
-}
+class  TYPE :
+	const DEBUG=0
+	const INFO=1
+	const WARNING=2
+	const ERROR=3
+	const NONE=4
+
 
 
 # @var  int
 var logLevel = TYPE.WARNING
 
+var _console
+
+
+func _init(console):
+	_console = console
 
 # @param    int  in_log_level
 # @returns  Log
@@ -43,7 +47,7 @@ func log(message, type = TYPE.INFO):
 # @returns  Log
 func debug(message):
 	if logLevel <= TYPE.DEBUG:
-		Console.write_line('[color=green][DEBUG][/color] ' + str(message))
+		self._console.write_line('[color=green][DEBUG][/color] ' + str(message))
 	return self
 
 
@@ -51,7 +55,7 @@ func debug(message):
 # @returns  Log
 func info(message):
 	if logLevel <= TYPE.INFO:
-		Console.write_line('[color=blue][INFO][/color] ' + str(message))
+		self._console.write_line('[color=blue][INFO][/color] ' + str(message))
 	return self
 
 
@@ -59,7 +63,7 @@ func info(message):
 # @returns  Log
 func warn(message):
 	if logLevel <= TYPE.WARNING:
-		Console.write_line('[color=yellow][WARNING][/color] ' + str(message))
+		self._console.write_line('[color=yellow][WARNING][/color] ' + str(message))
 	return self
 
 
@@ -67,5 +71,5 @@ func warn(message):
 # @returns  Log
 func error(message):
 	if logLevel <= TYPE.ERROR:
-		Console.write_line('[color=red][ERROR][/color] ' + str(message))
+		self._console.write_line('[color=red][ERROR][/color] ' + str(message))
 	return self

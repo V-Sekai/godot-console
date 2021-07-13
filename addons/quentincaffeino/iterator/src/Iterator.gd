@@ -1,5 +1,5 @@
 
-extends Reference
+extends RefCounted
 
 const CallbackBuilder = preload("res://addons/quentincaffeino/callback/src/CallbackBuilder.gd")
 
@@ -14,7 +14,9 @@ var _object_get_length_cb
 var _iteration_current_index = 0
 
 # @var  int
-var length setget _set_readonly, length
+var _length :
+	set = _set_readonly,
+	get = length
 
 
 # @param  Reference  target
@@ -38,8 +40,8 @@ func _get(index):
 
 # Sets the internal iterator to the first element in the collection and returns this element.
 # @returns  Variant|null
-func first():
-	if self.length:
+func first() -> Variant:
+	if self._length:
 		self._iteration_current_index = 0
 		return self._get(self._iteration_current_index)
 
@@ -48,9 +50,9 @@ func first():
 
 # Sets the internal iterator to the last element in the collection and returns this element.
 # @returns  Variant|null
-func last():
-	if self.length:
-		self._iteration_current_index = self.length - 1
+func last() -> Variant:
+	if self._length:
+		self._iteration_current_index = self._length - 1
 		return self._get(self._iteration_current_index)
 
 	return null
@@ -58,8 +60,8 @@ func last():
 
 # Gets the current key/index at the current internal iterator position.
 # @returns  Variant|null
-func key():
-	if self.length:
+func key() -> Variant:
+	if self._length:
 		return self._iteration_current_index
 
 	return null
@@ -67,8 +69,8 @@ func key():
 
 # Moves the internal iterator position to the next element and returns this element.
 # @returns  Variant|null
-func next():
-	if self.length and self._iteration_current_index < self.length - 1:
+func next() -> Variant:
+	if self._length and self._iteration_current_index < self._length - 1:
 		self._iteration_current_index += 1
 		return self._get(self._iteration_current_index)
 
@@ -77,8 +79,8 @@ func next():
 
 # Moves the internal iterator position to the previous element and returns this element.
 # @returns  Variant|null
-func previous():
-	if self.length and self._iteration_current_index > 0:
+func previous() -> Variant:
+	if self._length and self._iteration_current_index > 0:
 		self._iteration_current_index -= 1
 		return self._get(self._iteration_current_index)
 
@@ -87,8 +89,8 @@ func previous():
 
 # Gets the element of the collection at the current internal iterator position.
 # @returns  Variant|null
-func current():
-	if self.length:
+func current() -> Variant:
+	if self._length:
 		return self._get(self._iteration_current_index)
 
 	return null
@@ -96,21 +98,21 @@ func current():
 
 # @override  _iter_init(?)
 # @returns   bool
-func _iter_init(arg):
+func _iter_init(arg) -> bool:
 	self._iteration_current_index = 0
-	return self._iteration_current_index < self.length
+	return self._iteration_current_index < self._length
 
 
 # @override  _iter_next(?)
 # @returns   bool
-func _iter_next(arg):
+func _iter_next(arg) -> bool:
 	self._iteration_current_index += 1
-	return self._iteration_current_index < self.length
+	return self._iteration_current_index < self._length
 
 
 # @override  _iter_get(?)
 # @returns   Variant
-func _iter_get(arg = null):
+func _iter_get(arg: Variant = null) -> Variant:
 	return self._get(self._iteration_current_index)
 
 

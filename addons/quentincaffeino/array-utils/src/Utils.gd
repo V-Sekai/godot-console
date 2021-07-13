@@ -1,5 +1,5 @@
 
-extends Reference
+extends RefCounted
 
 
 # @param    Variant  value

@@ -1,5 +1,5 @@
 
-extends './Collection.gd'
+extends 'res://addons/quentincaffeino/array-utils/src/Collection.gd' # Collection.gd
 
 
 # @var  int
@@ -20,10 +20,10 @@ func set_max_length(max_length):
 # @param    Variant  value
 # @returns  QueueCollection
 func push(value):
-	if self.length >= 0 and self.last() == value:
+	if self._length >= 0 and self.last() == value:
 		return
 
-	if self.length == self.get_max_length():
+	if self._length == self.get_max_length():
 		self.pop()
 
 	self.add(value)

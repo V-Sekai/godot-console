@@ -5,7 +5,7 @@ extends 'res://addons/quentincaffeino/console/src/Type/BaseRangeType.gd'
 # @param  int   minValue
 # @param  int   maxValue
 # @param  int   step
-func _init(minValue = 0, maxValue = 100, step = 1).('IntRange', minValue, maxValue, step):
+func _init(minValue = 0, maxValue = 100, step = 1):
 	pass
 
 
@@ -13,7 +13,7 @@ func _init(minValue = 0, maxValue = 100, step = 1).('IntRange', minValue, maxVal
 # @param    Variant  value
 # @returns  Variant
 func normalize(value):
-	value = float(self._reextract(value).replace(',', '.'))
+	value = self._reextract(value).to_int()
 	value = clamp(value, self.get_min_value(), self.get_max_value())
 
 	# Find closest step

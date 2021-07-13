@@ -11,7 +11,7 @@ var _regex
 
 # @param  String  name
 # @param  String  pattern
-func _init(name, pattern).(name):
+func _init(name, pattern):
 	self._pattern = pattern
 	self._regex = RegEx.new()
 	self._regex.compile(self._pattern)
@@ -25,10 +25,10 @@ func check(value):
 
 # @param    Variant  value
 # @returns  String|null
-func _reextract(value):
+func _reextract(value) -> String:
 	var rematch = self._regex.search(value)
 
 	if rematch and rematch is RegExMatch:
 		return rematch.get_string()
 
-	return null
+	return ""

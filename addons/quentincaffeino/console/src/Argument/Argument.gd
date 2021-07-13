@@ -1,13 +1,12 @@
 
-extends Reference
+extends RefCounted
 
 
-enum ASSIGNMENT \
-{
-	OK,
-	FAILED,
-	CANCELED
-}
+class  ASSIGNMENT :
+	const OK=0
+	const FAILED=1
+	const CANCELED=2
+
 
 
 # @var  String

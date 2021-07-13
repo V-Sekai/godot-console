@@ -1,5 +1,5 @@
 
-extends Reference
+extends RefCounted
 
 const CallbackBuilder = preload('res://addons/quentincaffeino/callback/src/CallbackBuilder.gd')
 const Callback = preload('res://addons/quentincaffeino/callback/src/Callback.gd')
@@ -70,10 +70,10 @@ func add_argument(name, type = null, description = null):
 	var error = argument_result.get_error()
 	if error:
 		if error.get_code() != ArgumentFactory.FALLBACK_ERROR:
-			Console.Log.error(error.get_message())
+			self._console.Log.error(error.get_message())
 			return self
 		else:
-			Console.Log.warn(\
+			self._console.Log.warn(\
 				"CommandBuilder: add_argument for command `%s` for argument `%s` failed with: %s" % [self._name, name, error.get_message()])
 
 	var argument = argument_result.get_value()
@@ -90,6 +90,6 @@ func set_description(description = null):
 
 # @returns  void
 func register():
-	var command = Command.new(self._name, self._target, self._arguments, self._description)
+	var command = Command.new(self._console, self._name, self._target, self._arguments, self._description)
 	if not self._command_service.set(self._name, command):
-		self._console.error("CommandBuilder::register: Failed to create [b]`%s`[/b] command. Command already exists." % self._name)
+		self._console.Log.error("CommandBuilder::register: Failed to create [b]`%s`[/b] command. Command already exists." % self._name)

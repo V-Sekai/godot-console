@@ -1,5 +1,5 @@
 
-extends Reference
+extends RefCounted
 
 const Iterator = preload('res://addons/quentincaffeino/iterator/src/Iterator.gd')
 const CommandCollection = preload('CommandCollection.gd')
@@ -62,7 +62,7 @@ func remove(command_name):
 func autocomplete(command_name):
 	var commands = self.find(command_name)
 
-	if commands.length == 1:
+	if commands.length() == 1:
 		return commands.get_by_index(0).get_name()
 
 	var autocomplete_result_str = command_name
@@ -71,7 +71,7 @@ func autocomplete(command_name):
 	var letter
 	var letter_i = autocomplete_result_str_len
 
-	while commands.length:
+	while commands.length() > 0:
 		for command in commands.get_value_iterator():
 			var cmd_name = command.get_name()
 			
